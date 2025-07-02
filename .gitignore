@@ -1,0 +1,12 @@
+# Ignore models and checkpoints
+*.bin
+*.pt
+*.safetensors
+results/
+notebook/results/
+saved_model/model.safetensors
+saved_model/training_args.bin
+__pycache__/
+venv/
+
+
