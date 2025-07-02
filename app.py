@@ -1,9 +1,11 @@
-import random
+from flask import Flask, render_template, request
 from transformers import pipeline
+import random
 
-# Load model and tokenizer
+app = Flask(__name__)
+
+# Load model
 classifier = pipeline("text-classification", model="saved_model", tokenizer="saved_model")
-
 # Label mapping
 label_mapping = {
     "LABEL_0": "sadness",
@@ -94,5 +96,18 @@ def chatbot():
         print(f"🤖 Bot: {response}\n")
 
 
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    user_message = ""
+    bot_response = ""
+    if request.method == "POST":
+        user_message = request.form["message"]
+        result = classifier(user_message)
+        label = result[0]['label']
+        emotion = label_mapping.get(label, "unknown")
+        bot_response = get_bot_response(user_message, emotion)
+    return render_template("index.html", user_message=user_message, bot_response=bot_response)
+
 if __name__ == "__main__":
-    chatbot()
+    app.run(debug=True)
