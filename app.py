@@ -6,9 +6,10 @@ import os
 app = Flask(__name__)
 
 # Use HuggingFace hosted model (small, free, works on Render)
-classifier = pipeline("text-classification", model="distilbert-base-uncased-finetuned-sst-2-english")
+classifier = pipeline("text-classification", model="distilbert-base-uncased", tokenizer="distilbert-base-uncased")
 
-# Map model labels to emotions (as per SST-2)
+
+# Map model labels to emotions 
 label_mapping = {
     "NEGATIVE": "sadness",
     "POSITIVE": "joy"
